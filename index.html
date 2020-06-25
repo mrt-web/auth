@@ -1,21 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-signin-client_id" content="69339822094-v7lrnuf3a0o70eo8ie2ef51lh74gb4ae.apps.googleusercontent.com">
+    <meta name="google-signin-client_id"
+        content="69339822094-v7lrnuf3a0o70eo8ie2ef51lh74gb4ae.apps.googleusercontent.com">
     <meta name="google-site-verification" content="im-ST7HGClUky9sT2-0W1E9KLA6ApQJ7-8xR7CmSj_E" />
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
+    <style>
+        .fb {
+            background-color: rgb(140, 35, 238);
+            float: left;
+            padding: 1rem;
+            color: white;
+            margin-top: 1rem;
+            cursor: pointer;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25);
+            border-radius: .3rem;
+            transition: all .1s ease-in;
+        }
+
+        .fb:hover {
+            box-shadow: 0px 0px 3px 3px rgba(7, 9, 121, 0.25);
+        }
+    </style>
     <title>Document</title>
 </head>
+
 <body>
     <div class="g-signin2" data-success="OnSignIn"></div>
-
+    <div class="fb">Continue with FB</div>
     <script>
-        function OnSignIn(){
+        l = console.log
+        // google
+        function OnSignIn() {
             console.log(googleUser.getBasicProfile())
         }
     </script>
+
+    <script>
+        // facebook
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '269178407500034',
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v7.0'
+            });
+        };
+        setTimeout(() => {
+            l(fbAsyncInit())
+            FB.login(function (response) {
+                if (response.authResponse) {
+                    console.log('Welcome!  Fetching your information.... ');
+                    FB.api('/me', function (response) {
+                        console.log('Good to see you, ' + response.name + '.');
+                    });
+                } else {
+                    console.log('User cancelled login or did not fully authorize.');
+                }
+            });
+        }, 1000);
+    </script>
+    <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
 </body>
+
 </html>
