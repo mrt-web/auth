@@ -10,9 +10,11 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
     <style>
-        .fb {
+        .fb, .logout {
             background-color: rgb(140, 35, 238);
-            float: left;
+            /* float: left; */
+            max-width: 12rem;
+            text-align: center;
             padding: 1rem;
             color: white;
             margin-top: 1rem;
@@ -31,7 +33,12 @@
 
 <body>
     <div class="g-signin2" data-success="OnSignIn"></div>
+
     <div class="fb" onclick="fb_login()">Continue with FB2</div>
+    <br>
+    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+    <div id="status"></div>
+    <div class="logout" onclick="fb_logout()">Logout</div>
     <script>
         l = console.log
         // google
@@ -47,6 +54,7 @@
                 appId: '269178407500034',
                 autoLogAppEvents: true,
                 xfbml: true,
+                cookies: false,
                 version: 'v7.0'
             });
         };
@@ -64,10 +72,21 @@
                 } else {
                     console.log('User cancelled login or did not fully authorize.');
                 }
-            });
+            }, {scope: 'public_profile, email'});
         }
+        function fb_logout(){
+            FB.logout((res)=> console.log('signed out'))
+        }
+        (function (d, s, id) { // Load the SDK asynchronously
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
     </script>
-    <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <!-- <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script> -->
 </body>
 
 </html>
